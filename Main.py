@@ -1,8 +1,9 @@
-from bs4 import BeautifulSoup as soap
-from Discord import Discord
 import time
 import requests
 import re
+from bs4 import BeautifulSoup as soap
+from Discord import Discord
+
 
 # CATEGORIES - Pick skills you are interested in freelancer.com and copy link.
 CATEGORIES = 'https://www.freelancer.com/jobs/django_web-scraping_python_data-mining_' \
@@ -42,11 +43,11 @@ def get_price_and_bid_count(container):
 
 def get_containers():
     """Sends a request and returns all of the div containers for jobs as a list """
-    response = requests.get(CATEGORIES).text
+    response = requests.get(CATEGORIES)
     if response.status_code != 200:
         raise requests.ConnectionError
 
-    page_soup = soap(response, "html.parser")
+    page_soup = soap(response.text, "html.parser")
     containers = page_soup.find_all("div", {"class": "JobSearchCard-item"})
     return containers
 
